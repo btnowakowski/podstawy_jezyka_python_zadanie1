@@ -1,15 +1,26 @@
+import os
 import tkinter as tk
 from tkinter import filedialog, messagebox
 from tkinter.scrolledtext import ScrolledText
 
-from tasks import run_standalone
+from zad_gui.tasks import run_standalone
+
+TITLE_PREFIX = "Tytuł: "
 
 
 class NotepadFilesWindow(tk.Toplevel):
+    SIZE = (780, 580)
+
     def __init__(self, master):
         super().__init__(master)
         self.path = None
         self.title("Notatnik")
+
+        toolbar = tk.Frame(self)
+        toolbar.pack(fill="x", padx=10, pady=(8, 0))
+        tk.Button(toolbar, text="Nowy", command=self.new_file).pack(side="left")
+        tk.Button(toolbar, text="Otwórz...", command=self.open_file).pack(side="left", padx=4)
+        tk.Button(toolbar, text="Zapisz", command=self.save_file).pack(side="left")
 
         body = tk.Frame(self, padx=10, pady=10)
         body.pack(fill="both", expand=True)
@@ -61,7 +72,7 @@ class NotepadFilesWindow(tk.Toplevel):
 
     def open_file(self):
         path = filedialog.askopenfilename(
-            parent=self, filetypes=[("Pliki tekstowe", "*.txt"), ("Wszystkie", "*.*")])
+            parent=self, filetypes=[("Pliki tekstowe", "*.txt"), ("Wszystkie pliki", "*")])
         if not path:
             return
         try:
@@ -70,7 +81,12 @@ class NotepadFilesWindow(tk.Toplevel):
         except (OSError, UnicodeDecodeError) as exc:
             messagebox.showerror("Błąd", f"Nie można otworzyć pliku:\n{exc}", parent=self)
             return
-        note_title, _, body = data.partition("\n")
+        first_line, _, rest = data.partition("\n")
+        if first_line.startswith(TITLE_PREFIX):
+            note_title, body = first_line[len(TITLE_PREFIX):], rest
+        else:
+            # a plain text file: keep all of it as the content, use the file name as title
+            note_title, body = os.path.splitext(os.path.basename(path))[0], data
         self.title_entry.delete(0, tk.END)
         self.title_entry.insert(0, note_title)
         self.text.delete("1.0", tk.END)
@@ -86,7 +102,7 @@ class NotepadFilesWindow(tk.Toplevel):
                 return
         try:
             with open(self.path, "w", encoding="utf-8") as f:
-                f.write(self.title_entry.get() + "\n" + self.text.get("1.0", "end-1c"))
+                f.write(TITLE_PREFIX + self.title_entry.get() + "\n" + self.text.get("1.0", "end-1c"))
         except OSError as exc:
             messagebox.showerror("Błąd", f"Nie można zapisać pliku:\n{exc}", parent=self)
             return

@@ -1,17 +1,19 @@
 import tkinter as tk
 from tkinter import messagebox
 
-from tasks import run_standalone
+from zad_gui.tasks import run_standalone
 
 
 class LoginWindow(tk.Toplevel):
+    SIZE = (460, 280)
+
     def __init__(self, master):
         super().__init__(master)
         self.title("Logowanie")
         self.resizable(False, False)
 
         frame = tk.Frame(self, padx=20, pady=20)
-        frame.pack()
+        frame.pack(expand=True)
         tk.Label(frame, text="Login:").grid(row=0, column=0, sticky="e", pady=4)
         self.login_entry = tk.Entry(frame, width=25)
         self.login_entry.grid(row=0, column=1, pady=4)
@@ -30,7 +32,7 @@ class LoginWindow(tk.Toplevel):
         if not login or not password:
             messagebox.showerror("Błąd", "Wypełnij pola Login i Hasło.", parent=self)
             return
-        print(f"Login: {login}, Hasło: {password}")
+        messagebox.showinfo("Dane logowania", f"Login: {login}\nHasło: {password}", parent=self)
 
 
 if __name__ == "__main__":

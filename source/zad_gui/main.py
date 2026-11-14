@@ -1,19 +1,20 @@
 import tkinter as tk
 from tkinter import ttk
 
-from tasks.consents import ConsentsWindow
-from tasks.converter import ConverterWindow
-from tasks.language import LanguageWindow
-from tasks.login import LoginWindow
-from tasks.notepad import NotepadWindow
-from tasks.notepad_files import NotepadFilesWindow
-from tasks.paint import PaintWindow
-from tasks.settings import SettingsWindow
-from tasks.shopping_list import ShoppingListWindow
-from tasks.students import StudentsWindow
-from tasks.survey import SurveyWindow
-from tasks.text_editor import TextEditorWindow
-from tasks.timer import TimerWindow
+from zad_gui.tasks import show_centered
+from zad_gui.tasks.consents import ConsentsWindow
+from zad_gui.tasks.converter import ConverterWindow
+from zad_gui.tasks.language import LanguageWindow
+from zad_gui.tasks.login import LoginWindow
+from zad_gui.tasks.notepad import NotepadWindow
+from zad_gui.tasks.notepad_files import NotepadFilesWindow
+from zad_gui.tasks.paint import PaintWindow
+from zad_gui.tasks.settings import SettingsWindow
+from zad_gui.tasks.shopping_list import ShoppingListWindow
+from zad_gui.tasks.students import StudentsWindow
+from zad_gui.tasks.survey import SurveyWindow
+from zad_gui.tasks.text_editor import TextEditorWindow
+from zad_gui.tasks.timer import TimerWindow
 
 LEVELS = [
     ("Poziom 1 - Podstawowe widgety", [
@@ -43,10 +44,11 @@ LEVELS = [
 
 
 class Launcher(tk.Tk):
+    SIZE = (560, 700)
+
     def __init__(self):
         super().__init__()
         self.title("Tkinter - zadania")
-        self.resizable(False, False)
 
         for heading, tasks in LEVELS:
             group = ttk.LabelFrame(self, text=heading, padding=8)
@@ -54,9 +56,10 @@ class Launcher(tk.Tk):
             for label, window_cls in tasks:
                 ttk.Button(group, text=label, width=40,
                            command=lambda cls=window_cls: self.open_task(cls)).pack(pady=2)
+        show_centered(self)
 
     def open_task(self, window_cls):
-        window_cls(self)
+        show_centered(window_cls(self))
 
 
 if __name__ == "__main__":

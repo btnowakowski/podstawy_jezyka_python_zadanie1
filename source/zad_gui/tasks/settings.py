@@ -1,11 +1,13 @@
 import tkinter as tk
 import tkinter.font as tkfont
-from tkinter import colorchooser, ttk
+from tkinter import colorchooser, messagebox, ttk
 
-from tasks import run_standalone
+from zad_gui.tasks import run_standalone
 
 
 class SettingsWindow(tk.Toplevel):
+    SIZE = (600, 440)
+
     def __init__(self, master):
         super().__init__(master)
         self.title("Ustawienia")
@@ -23,6 +25,11 @@ class SettingsWindow(tk.Toplevel):
         ttk.Button(appearance, text="Wybierz kolor tła", command=self.pick_color).pack(pady=8)
         self.color_label = ttk.Label(appearance, text=f"Tło: {self.background}")
         self.color_label.pack()
+        # the settings only change this preview, not the fonts of the whole app
+        self.preview_font = tkfont.Font(size=12)
+        self.preview = tk.Label(appearance, text="Przykładowy tekst", font=self.preview_font,
+                                bg=self.background, width=24, pady=12)
+        self.preview.pack(pady=10)
 
         account = ttk.Frame(notebook, padding=12)
         notebook.add(account, text="Konto")
@@ -63,9 +70,16 @@ class SettingsWindow(tk.Toplevel):
             "age": age,
             "notifications": [name for name, var in self.channels.items() if var.get()],
         }
-        self.configure(bg=self.background)
-        tkfont.nametofont("TkDefaultFont").configure(size=self.font_size.get())
-        print(self.applied)
+        self.preview_font.configure(size=self.font_size.get())
+        self.preview.config(bg=self.background)
+        summary = (
+            f"Czcionka: {self.applied['font_size']}\n"
+            f"Tło: {self.applied['background']}\n"
+            f"Użytkownik: {self.applied['username']}\n"
+            f"Wiek: {self.applied['age']}\n"
+            f"Powiadomienia: {', '.join(self.applied['notifications']) or 'brak'}"
+        )
+        messagebox.showinfo("Zastosowano ustawienia", summary, parent=self)
 
 
 if __name__ == "__main__":

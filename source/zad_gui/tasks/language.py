@@ -1,17 +1,19 @@
 import tkinter as tk
 
-from tasks import run_standalone
+from zad_gui.tasks import run_standalone
 
 LANGUAGES = ("Python", "Java", "C++")
 
 
 class LanguageWindow(tk.Toplevel):
+    SIZE = (440, 320)
+
     def __init__(self, master):
         super().__init__(master)
         self.title("Wybór języka")
 
         frame = tk.Frame(self, padx=20, pady=20)
-        frame.pack()
+        frame.pack(expand=True)
         self.choice = tk.StringVar(value=LANGUAGES[0])
         for name in LANGUAGES:
             tk.Radiobutton(frame, text=name, value=name, variable=self.choice).pack(anchor="w")

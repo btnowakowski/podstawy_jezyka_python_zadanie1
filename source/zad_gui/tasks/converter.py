@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 
-from tasks import run_standalone
+from zad_gui.tasks import run_standalone
 
 CONVERSIONS = {
     "km -> mile": lambda x: x * 0.621371,
@@ -11,12 +11,14 @@ CONVERSIONS = {
 
 
 class ConverterWindow(tk.Toplevel):
+    SIZE = (500, 300)
+
     def __init__(self, master):
         super().__init__(master)
         self.title("Konwerter jednostek")
 
         frame = tk.Frame(self, padx=20, pady=20)
-        frame.pack()
+        frame.pack(expand=True)
         self.kind = tk.StringVar(value=next(iter(CONVERSIONS)))
         self.value = tk.StringVar()
 

@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox, ttk
 
-from tasks import run_standalone
+from zad_gui.tasks import run_standalone
 
 COLUMNS = ("Imię", "Nazwisko", "Ocena")
 
@@ -15,6 +15,8 @@ def parse_grade(text):
 
 
 class StudentsWindow(tk.Toplevel):
+    SIZE = (720, 500)
+
     def __init__(self, master):
         super().__init__(master)
         self.title("Lista studentów")

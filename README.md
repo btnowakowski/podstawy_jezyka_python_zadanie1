@@ -4,7 +4,7 @@ Moje rozwiązania zadań z podstaw Pythona. Są tu trzy osobne części:
 
 - `zad1` - 20 krótkich ćwiczeń z konsoli (zmienne, napisy, liczby, logika),
 - `zad2` - 11 małych programów z konsoli (temperatura, hasło, kalkulator i kilka innych),
-- `tasks` - 13 zadań z tkintera, zebranych w jednym oknie, z którego się je odpala.
+- `zad_gui` - 13 zadań z tkintera, zebranych w jednym oknie, z którego się je odpala.
 
 ## Co jest potrzebne
 
@@ -22,18 +22,17 @@ Wszystko odpala się z katalogu `source/`:
 cd source
 uv run python -m zad1.main      # menu ćwiczeń 1-20
 uv run python -m zad2.main      # menu ćwiczeń 1-11
-uv run python main.py           # okno z listą zadań tkinter
+uv run python -m zad_gui.main   # okno z listą zadań gui
 ```
 
 W menu konsolowym wpisuje się numer ćwiczenia i Enter, a pusty Enter kończy program.
-Pojedyncze zadanie z okienkiem można odpalić też bez menu, np. `uv run python -m tasks.converter`.
+Pojedyncze zadanie z okienkiem można odpalić też bez menu, np. `uv run python -m zad_gui.tasks.converter`.
 
 ## Co gdzie leży
 
 ```
 source/
   console_io.py    wczytywanie liczb od użytkownika
-  main.py          okno startowe z listą zadań tkinter
   zad1/
     main.py        menu
     basics.py      import this, zasady Zen, tekst powitalny
@@ -46,7 +45,9 @@ source/
     main.py        menu
     numbers.py     ćwiczenia na liczbach (temperatura, wiek, średnia, porównanie, kalkulator)
     text.py        ćwiczenia na tekście (powitanie, liczenie znaków, hasło, powielanie, quiz)
-  tasks/           po jednym pliku na każde okno tkinter
+  zad_gui/
+    main.py        okno startowe z listą zadań
+    tasks/         po jednym pliku na każde okno tkinter
 ```
 
 W obu menu ćwiczenie to zwykła funkcja w jednym z modułów. Tam, gdzie dało się to łatwo oddzielić,
@@ -55,7 +56,7 @@ robi funkcja obok, dzięki temu liczenie można sprawdzić bez klikania.
 
 ## Zadania tkinter
 
-Okno startowe grupuje je tak, jak były w poleceniu:
+Wyniki (np. dane z logowania, zapisana notatka) pokazują się w oknach messagebox.
 
 1. logowanie, 2. zgody - `login.py`, `consents.py`
 3. wybór języka, 4. lista zakupów - `language.py`, `shopping_list.py`

@@ -1,11 +1,13 @@
 import tkinter as tk
 
-from tasks import run_standalone
+from zad_gui.tasks import run_standalone
 
 PRODUCTS = ("Chleb", "Mleko", "Masło", "Jajka", "Ser", "Jabłka", "Kawa")
 
 
 class ShoppingListWindow(tk.Toplevel):
+    SIZE = (560, 500)
+
     def __init__(self, master):
         super().__init__(master)
         self.title("Lista zakupów")

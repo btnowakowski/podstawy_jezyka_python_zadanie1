@@ -1,19 +1,22 @@
-import re
 import tkinter as tk
 import tkinter.font as tkfont
 from tkinter import filedialog, messagebox
 from tkinter.scrolledtext import ScrolledText
 
-from tasks import run_standalone
+from zad_gui.tasks import run_standalone
 
 HIGHLIGHT_TAG = "match"
 
 
 def count_words(text):
-    return len(re.findall(r"\S+", text))
+    # split on whitespace, so a link like https://example.com/a?b=1 is one word;
+    # pieces without a letter or digit (a lone "-" or "...") are not words
+    return sum(1 for piece in text.split() if any(ch.isalnum() for ch in piece))
 
 
 class TextEditorWindow(tk.Toplevel):
+    SIZE = (940, 640)
+
     def __init__(self, master):
         super().__init__(master)
         self.path = None
@@ -21,6 +24,13 @@ class TextEditorWindow(tk.Toplevel):
         self.title("Notatnik")
 
         self.font = tkfont.Font(family="Courier", size=12)
+        toolbar = tk.Frame(self)
+        toolbar.pack(fill="x", padx=6, pady=(6, 0))
+        tk.Button(toolbar, text="Nowy", command=self.new_file).pack(side="left")
+        tk.Button(toolbar, text="Otwórz...", command=self.open_file).pack(side="left", padx=4)
+        tk.Button(toolbar, text="Zapisz", command=self.save_file).pack(side="left")
+        tk.Button(toolbar, text="Szukaj...", command=self.open_find).pack(side="left", padx=4)
+
         self.text = ScrolledText(self, width=70, height=20, wrap="word", font=self.font, undo=True)
         self.text.pack(fill="both", expand=True)
         self.text.tag_config(HIGHLIGHT_TAG, background="yellow", foreground="black")
@@ -100,7 +110,7 @@ class TextEditorWindow(tk.Toplevel):
 
     def open_file(self):
         path = filedialog.askopenfilename(
-            parent=self, filetypes=[("Pliki tekstowe", "*.txt"), ("Wszystkie", "*.*")])
+            parent=self, filetypes=[("Pliki tekstowe", "*.txt"), ("Wszystkie pliki", "*")])
         if not path:
             return
         try:
@@ -146,16 +156,23 @@ class TextEditorWindow(tk.Toplevel):
         self.find_result = tk.Label(win)
         self.find_result.grid(row=2, column=0, columnspan=2)
         tk.Button(win, text="Znajdź wszystkie", command=self.find_all).grid(row=3, column=0, pady=6)
-        tk.Button(win, text="Wyczyść", command=self.clear_highlight).grid(row=3, column=1)
+        tk.Button(win, text="Wyczyść", command=self.reset_find).grid(row=3, column=1)
 
         self.find_entry.bind("<Return>", lambda event: self.find_all())
         win.bind("<Escape>", lambda event: win.destroy())
         win.protocol("WM_DELETE_WINDOW", self.close_find)
         self.find_entry.focus_set()
 
+    def reset_find(self):
+        self.clear_highlight()
+        self.find_entry.delete(0, tk.END)
+        self.find_result.config(text="")
+        self.find_entry.focus_set()
+
     def close_find(self):
         self.clear_highlight()
-        self.find_window.destroy()
+        if self.find_window is not None:
+            self.find_window.destroy()
 
     def find_all(self):
         self.clear_highlight()

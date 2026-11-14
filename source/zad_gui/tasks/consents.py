@@ -1,18 +1,20 @@
 import tkinter as tk
 from tkinter import messagebox
 
-from tasks import run_standalone
+from zad_gui.tasks import run_standalone
 
 TERMS = "Akceptacja regulaminu"
 
 
 class ConsentsWindow(tk.Toplevel):
+    SIZE = (480, 320)
+
     def __init__(self, master):
         super().__init__(master)
         self.title("Zgody użytkownika")
 
         frame = tk.Frame(self, padx=20, pady=20)
-        frame.pack()
+        frame.pack(expand=True)
         tk.Label(frame, text="Imię:").grid(row=0, column=0, sticky="e")
         self.name_entry = tk.Entry(frame, width=25)
         self.name_entry.grid(row=0, column=1, pady=4)
@@ -33,8 +35,8 @@ class ConsentsWindow(tk.Toplevel):
             messagebox.showwarning("Uwaga", "Musisz zaakceptować regulamin.", parent=self)
             return
         accepted = [label for label, var in self.consents.items() if var.get()]
-        print(f"Imię: {self.name_entry.get().strip()}")
-        print("Zgody:", ", ".join(accepted))
+        name = self.name_entry.get().strip()
+        messagebox.showinfo("Zapisano", f"Imię: {name}\nZgody: {', '.join(accepted)}", parent=self)
 
 
 if __name__ == "__main__":

@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 
-from tasks import run_standalone
+from zad_gui.tasks import run_standalone
 
 LEVELS = ("Początkujący", "Średniozaawansowany", "Zaawansowany")
 INTERESTS = ("Web", "AI", "Data Science")
@@ -9,6 +9,8 @@ LANGUAGES = ("Python", "JavaScript", "Java", "C++", "Go", "Rust")
 
 
 class SurveyWindow(tk.Toplevel):
+    SIZE = (680, 740)
+
     def __init__(self, master):
         super().__init__(master)
         self.title("Ankieta")

@@ -1,12 +1,14 @@
 import tkinter as tk
 from tkinter import colorchooser
 
-from tasks import run_standalone
+from zad_gui.tasks import run_standalone
 
 BACKGROUND = "white"
 
 
 class PaintWindow(tk.Toplevel):
+    SIZE = (960, 680)
+
     def __init__(self, master):
         super().__init__(master)
         self.title("Paint")

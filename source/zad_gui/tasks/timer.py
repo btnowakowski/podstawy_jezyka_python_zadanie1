@@ -1,10 +1,12 @@
 import tkinter as tk
 from tkinter import messagebox, ttk
 
-from tasks import run_standalone
+from zad_gui.tasks import run_standalone
 
 
 class TimerWindow(tk.Toplevel):
+    SIZE = (500, 320)
+
     def __init__(self, master):
         super().__init__(master)
         self.title("Minutnik")
@@ -13,7 +15,7 @@ class TimerWindow(tk.Toplevel):
         self.job = None
 
         frame = tk.Frame(self, padx=20, pady=20)
-        frame.pack()
+        frame.pack(expand=True)
         row = tk.Frame(frame)
         row.pack()
         tk.Label(row, text="Sekundy:").pack(side="left")

@@ -2,10 +2,12 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter.scrolledtext import ScrolledText
 
-from tasks import run_standalone
+from zad_gui.tasks import run_standalone
 
 
 class NotepadWindow(tk.Toplevel):
+    SIZE = (720, 540)
+
     def __init__(self, master):
         super().__init__(master)
         self.title("Notatnik")
@@ -25,8 +27,8 @@ class NotepadWindow(tk.Toplevel):
         tk.Button(buttons, text="Wyczyść", command=self.clear).pack(side="left", padx=4)
 
     def save(self):
-        print(f"Tytuł: {self.title_entry.get()}")
-        print(f"Treść: {self.text.get('1.0', 'end-1c')}")
+        note = f"Tytuł: {self.title_entry.get()}\n\n{self.text.get('1.0', 'end-1c')}"
+        messagebox.showinfo("Zapisano notatkę", note, parent=self)
 
     def clear(self):
         if messagebox.askyesno("Potwierdzenie", "Czy na pewno wyczyścić notatkę?", parent=self):
