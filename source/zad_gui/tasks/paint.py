@@ -24,7 +24,7 @@ class PaintWindow(tk.Toplevel):
         self.width_scale = tk.Scale(toolbar, from_=1, to=30, orient="horizontal")
         self.width_scale.set(3)
         self.width_scale.pack(side="left")
-        tk.Button(toolbar, text="Wyczyść", command=lambda: self.canvas.delete("all")).pack(side="left", padx=6)
+        tk.Button(toolbar, text="Wyczyść", command=self.clear).pack(side="left", padx=6)
 
         self.canvas = tk.Canvas(self, width=700, height=450, bg=BACKGROUND, cursor="crosshair")
         self.canvas.pack(fill="both", expand=True)
@@ -44,6 +44,9 @@ class PaintWindow(tk.Toplevel):
             self.color = color
             self.swatch.config(bg=color)
             self.erasing.set(False)
+
+    def clear(self):
+        self.canvas.delete("all")
 
     def end_stroke(self, event):
         self.last_point = None

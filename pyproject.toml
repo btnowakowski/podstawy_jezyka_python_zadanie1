@@ -2,4 +2,13 @@
 name = "podstawy-jezyka-python"
 version = "0.1.0"
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "beautifulsoup4>=4.15.0",
+    "matplotlib>=3.11.2",
+    "pl-core-news-sm",
+    "requests>=2.34.2",
+    "spacy>=3.8.18",
+]
+
+[tool.uv.sources]
+pl-core-news-sm = { url = "https://github.com/explosion/spacy-models/releases/download/pl_core_news_sm-3.8.0/pl_core_news_sm-3.8.0-py3-none-any.whl" }

@@ -1,3 +1,4 @@
+from console_io import run_menu
 from zad2 import numbers, text
 
 EXERCISES = {
@@ -16,17 +17,7 @@ EXERCISES = {
 
 
 def main():
-    for number, (title, _) in EXERCISES.items():
-        print(f"{number:>2}. {title}")
-    while True:
-        choice = input("\nNumer ćwiczenia (Enter kończy): ").strip()
-        if not choice:
-            break
-        if choice.isdigit() and int(choice) in EXERCISES:
-            print()
-            EXERCISES[int(choice)][1]()
-        else:
-            print("Nie ma takiego ćwiczenia.")
+    run_menu(EXERCISES)
 
 
 if __name__ == "__main__":

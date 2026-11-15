@@ -1,0 +1,10 @@
+python: 39
+kurs: 39
+zmienny: 39
+funkcja: 39
+klasa: 38
+błąd: 38
+programowanie: 37
+pętla: 37
+lista: 36
+słownik: 36

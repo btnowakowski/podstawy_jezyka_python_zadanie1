@@ -12,7 +12,6 @@ def to_upper():
 
 
 def count_letter_a():
-    # lower() so the big A in Ala is counted too
     print("Ala ma kota".lower().count("a"))
 
 
